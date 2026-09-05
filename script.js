@@ -61,18 +61,37 @@ typeRole();
 // 3. Dynamic copyright year
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// 4. Contact form demo
+// 4. Contact form / WhatsApp
 const contactForm = document.getElementById("contactForm");
 const formStatus = document.getElementById("formStatus");
+const WHATSAPP_PHONE = "918451844016";
 
 contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
 
-    formStatus.textContent =
-        `Thanks ${name}! Your message has been received in this demo.`;
+    if (!name || !email || !message) {
+        formStatus.textContent = "Please complete all fields before sending.";
+        return;
+    }
 
+    const whatsappText = [
+        "Hello Saurav,",
+        "",
+        `Name: ${name}`,
+        `Email: ${email}`,
+        "",
+        "Message:",
+        message
+    ].join("\n");
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(whatsappText)}`;
+
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    formStatus.textContent = "WhatsApp is open—please tap Send to deliver your message.";
     contactForm.reset();
 });
 
